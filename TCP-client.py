@@ -3,9 +3,7 @@ import socket
 import os
 
 def main():
-    # serverName = '10.104.192.45'
     serverName = str(sys.argv[1])
-    # serverPort = 12000
     serverPort = int(sys.argv[2])
     clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     clientSocket.connect((serverName, serverPort))
@@ -26,8 +24,6 @@ def main():
     msg = clientSocket.recv(1024).decode('utf-8')
     print(f"[server]: {msg}")
 
-    # modSentence = clientSocket.recv(1024)
-    # print('From Server: ', modSentence.decode())
     file.close()
     clientSocket.close()
 

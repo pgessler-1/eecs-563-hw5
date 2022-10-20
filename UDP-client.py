@@ -4,9 +4,7 @@ import socket
 import os
 
 def main():
-    # serverName = '10.104.192.45'
     serverName = str(sys.argv[1])
-    # serverPort = 12000
     packetSize = 1024
     serverPort = int(sys.argv[2])
     clientSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)

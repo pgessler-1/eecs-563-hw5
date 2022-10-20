@@ -5,9 +5,7 @@ import sys
 
 
 def main():
-    # serverHost = '10.104.192.45'
     serverHost = socket.gethostbyname(socket.gethostname())
-    #serverPort = 12000
     packetSize = 1024
     serverPort = int(sys.argv[1])
     serverSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -20,9 +18,8 @@ def main():
         
 
         filename, clientaddr = serverSocket.recvfrom(2048)
-        filename.decode('utf-8')
         print(f"[RECV] receiving the filename")
-        file = open(f"transmitted\{str(filename)}", "w")
+        file = open(f"transmitted\{filename.decode('utf-8')}", "w")
         serverSocket.sendto("Filename received".encode('utf-8'), clientaddr)
         fileSize = int(file_size.decode('utf-8'))
         currentByteLoc = 0

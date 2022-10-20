@@ -4,10 +4,8 @@ import sys
 
 
 def main():
-    # serverHost = '127.0.0.1'
     serverHost = socket.gethostbyname(socket.gethostname())
     print(serverHost)
-    # serverPort = 12000
     serverPort = int(sys.argv[1])
     serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     serverSocket.bind((serverHost, serverPort))
