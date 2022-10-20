@@ -26,7 +26,8 @@ def main():
         serverSocket.sendto("Filename received".encode('utf-8'), clientaddr)
 
         fileSize = int(file_size.decode('utf-8'))
-        currentByteLoc, packetCount = 0
+        currentByteLoc = 0
+        packetCount = 0
 
         while (fileSize > currentByteLoc):
             data, clientaddr = serverSocket.recvfrom(packetSize)
