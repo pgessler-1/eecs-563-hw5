@@ -7,25 +7,31 @@ def main():
     # serverName = '10.104.192.45'
     serverName = str(sys.argv[1])
     # serverPort = 12000
+    packetSize = 1024
     serverPort = int(sys.argv[2])
     clientSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
     filename = str(sys.argv[3])
     file = open(filename, "r", encoding='utf-8')
+    fileSize = os.path.getsize(filename)
     data = file.read()
 
-    # file_size = os.path.getsize(filename)
+    clientSocket.sendto(str(fileSize).encode('utf-8'), (serverName, serverPort))
+    msg, clientaddr = clientSocket.recvfrom(2048)
+    print(f"[server]: {msg.decode('utf-8')}")
 
     clientSocket.sendto(filename.encode('utf-8'), (serverName, serverPort))
     msg, clientaddr = clientSocket.recvfrom(2048)
-    msg.decode('utf-8')
-    print(f"[server]: {msg}")
+    print(f"[server]: {msg.decode('utf-8')}")
 
-
-    clientSocket.sendto(data.encode('utf-8'), (serverName, serverPort))
-    msg, clientaddr = clientSocket.recvfrom(2048)
-    msg.decode('utf-8')
-    print(f"[server]: {msg}")
+    currentByteLoc = 0
+    while(fileSize > currentByteLoc):
+        clientSocket.sendto(data[currentByteLoc: currentByteLoc+packetSize].encode('utf-8'), (serverName, serverPort))
+        msg, clientaddr = clientSocket.recvfrom(2048)
+        print(f"[server]: {msg.decode('utf-8')}")
+        currentByteLoc += packetSize
+        if(currentByteLoc >= fileSize):
+            break
 
     file.close()
     clientSocket.close()
