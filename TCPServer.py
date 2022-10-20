@@ -22,7 +22,7 @@ def main():
 
         filename = connectionSocket.recv(1024).decode('utf-8')
         print(f"[RECV] receiving the filename")
-        file = open(filename, "w")
+        file = open(f"transmitted\{str(filename)}", "w")
         connectionSocket.send("Filename received".encode('utf-8'))
 
         data = connectionSocket.recv(file_size).decode('utf-8')

@@ -22,9 +22,8 @@ def main():
         filename, clientaddr = serverSocket.recvfrom(2048)
         filename.decode('utf-8')
         print(f"[RECV] receiving the filename")
-        file = open(filename, "w")
+        file = open(f"transmitted\{str(filename)}", "w")
         serverSocket.sendto("Filename received".encode('utf-8'), clientaddr)
-
         fileSize = int(file_size.decode('utf-8'))
         currentByteLoc = 0
         packetCount = 0
