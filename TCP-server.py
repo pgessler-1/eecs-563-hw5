@@ -1,4 +1,5 @@
 
+import os
 import socket
 import sys
 
@@ -11,6 +12,14 @@ def main():
     serverSocket.bind((serverHost, serverPort))
     serverSocket.listen(1)
 
+    current_directory = os.getcwd()
+    directory = "transmitted"
+    path = os.path.join(current_directory, directory)
+
+    try:
+        os.mkdir(path)
+    except OSError as error:
+        print(error)
     while True:
         connectionSocket, addr = serverSocket.accept()
 
@@ -19,8 +28,8 @@ def main():
         connectionSocket.send("size received".encode('utf-8'))
 
         filename = connectionSocket.recv(1024).decode('utf-8')
-        print(f"[RECV] receiving the filename")
-        file = open(f"transmitted\{str(filename)}", "w")
+        print(f"receiving the filename")
+        file = open(f"{path}\{str(filename)}", "w")
         connectionSocket.send("Filename received".encode('utf-8'))
 
         data = connectionSocket.recv(file_size).decode('utf-8')
